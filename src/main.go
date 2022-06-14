@@ -4,7 +4,34 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
+	pk "curso_golang_platzi/src/mypackage"
 )
+
+//Struct
+type persona struct {
+	nombre string
+	edad   int
+}
+
+//Struct with methods
+type persona2 struct {
+	nombre string
+	edad   int
+}
+
+func (p persona2) getNombre() string {
+	return p.nombre
+}
+
+func (p *persona2) setNombre(nombre string) {
+	p.nombre = nombre
+}
+
+type car struct {
+	brand string
+	year  int
+}
 
 func normalFunction(message string) {
 	fmt.Println(message)
@@ -21,6 +48,38 @@ func returnValue(a int) int {
 func doubleValue(a int) (c, d int) {
 	return a * 2, a*2 + 1
 }
+
+func isPalindrome(text string) bool {
+	var textReversed string
+	for _, v := range text {
+		textReversed = string(v) + textReversed
+	}
+	return strings.ToLower(textReversed) == strings.ToLower(text)
+}
+
+
+//Struct
+type pc struct {
+	ram int
+	cpu float64
+	brand string
+	year int
+	disk int
+}
+
+func (myPC pc) ping (){
+	fmt.Println(myPC.brand, "Pong")
+}
+
+func (myPC *pc) duplicateRam (){
+	myPC.ram = myPC.ram * 2
+}
+
+func (myPc pc) String() string {
+	return fmt.Sprintf("The PC brand is %s from year %d, has %f GHz of CPU, %d GB of RAM and %d GB of Hard Drive", myPc.brand, myPc.year, myPc.cpu, myPc.ram, myPc.disk)
+}
+
+
 
 func main() {
 	// This is a constant
@@ -180,4 +239,92 @@ func main() {
 	slice = append(slice, newSlide...)
 	fmt.Println(slice)
 
+	//Range in a Slice
+	slice3 := []string{"hola", "mundo", "platzi"}
+	for _, v := range slice3 {
+		fmt.Println(v)
+	}
+
+	//fmt.Println(isPalindrome("ama"))
+	//fmt.Println(isPalindrome("Ama"))
+
+	//Map
+	//map1 := make(map[string]int)
+	//map1["Jose"] = 14
+	//map1["Juan"] = 20
+	//map1["Rosa"] = 32
+	//fmt.Println(map1)
+	//key := "Josef"
+	//value, ok := map1[key]
+	//if ok {
+	//	fmt.Printf("%s => %d \n", key, value)
+	//} else {
+	//	fmt.Printf("%s Not found! \n", key)
+	//}
+
+	//delete(map1, "Jose")
+	//fmt.Println(map1)
+
+	//Range in a Map
+	//for k, v := range map1 {
+	//	fmt.Println(k, v)
+	//}
+
+	myCar := car{
+		brand: "Mustang",
+		year:  1964,
+	}
+
+	var persona1 persona
+	persona1.nombre = "Juan"
+	persona1.edad = 25
+	fmt.Println(persona1, myCar)
+
+	persona2 := persona2{
+		nombre: "Juan",
+		edad:   25,
+	}
+
+	fmt.Println(persona2)
+
+	var myCar2 pk.CarPublic
+	myCar2.Name = "Mustang"
+	myCar2.Brand = "Chevy"
+	myCar2.Year = 1964
+	fmt.Println(myCar2)
+
+	//no se puede acceder a los atributos de la clase privada	
+	//var anotherCar pk.carPrivate
+	//anotherCar.Name = "Mustang"
+	//anotherCar.Brand = "Chevy"
+	//anotherCar.Year = 1964
+	//fmt.Println(anotherCar)
+
+	pk.PrintMessage("Hola mundo")
+	//pk.printMessage1("Hola mundo")
+	a := 50
+	b := &a
+	
+	//Pointers
+	fmt.Println(a) //regular value
+	fmt.Println(b) //pointer to the value of a
+	fmt.Println(*b) //value of a
+
+	*b = 51 //change the value of a with the value of brand
+	fmt.Println(a) //51
+
+	myPc := pc{
+		brand: "Macbook",
+		year:  2019,
+		disk:  200,
+		ram:   8,
+		cpu:   4.5,
+	}
+	fmt.Println(myPc)
+	
+	myPc.ping()
+	myPc.duplicateRam()
+	fmt.Println(myPc)
+	myPc.duplicateRam()
+	fmt.Println(myPc)
 }
